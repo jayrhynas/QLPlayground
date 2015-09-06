@@ -13,7 +13,16 @@ void CancelPreviewGeneration(void *thisInterface, QLPreviewRequestRef preview);
 
 OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options)
 {
-    // To complete your generator please implement the function GeneratePreviewForURL in GeneratePreviewForURL.c
+    CFStringRef filename = CFStringCreateWithCString(kCFAllocatorDefault, "Contents.swift", kCFStringEncodingUTF8);
+    url = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, url, filename, false);
+    
+    CFStringRef contentType = CFStringCreateWithCString(kCFAllocatorDefault, "public.swift-source", kCFStringEncodingUTF8);
+    QLPreviewRequestSetURLRepresentation(preview, url, contentType, NULL);
+    
+    CFRelease(filename);
+    CFRelease(contentType);
+    CFRelease(url);
+    
     return noErr;
 }
 
